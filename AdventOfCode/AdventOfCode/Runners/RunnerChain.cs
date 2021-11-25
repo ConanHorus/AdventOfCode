@@ -25,21 +25,23 @@ namespace AdventOfCode.Runners
     });
 
     /// <summary>
+    /// Gets the runner.
+    /// </summary>
+    /// <param name="year">The year.</param>
+    /// <param name="day">The day.</param>
+    /// <returns>A RunnerBase? .</returns>
+    public static RunnerBase? GetRunner(int year, int day)
+    {
+      return runners.Value.Where(x => x is not null).FirstOrDefault(x => x!.Year == year && x.Day == day);
+    }
+
+    /// <summary>
     /// Runs correct runner.
     /// </summary>
-    /// <param name="year">Year.</param>
-    /// <param name="day">Day.</param>
+    /// <param name="runner">Runner.</param>
     /// <returns>Result.</returns>
-    public static (string? part1, string? part2)? Run(int year, int day)
+    public static (string? part1, string? part2) Run(RunnerBase runner)
     {
-      var runner = runners.Value.Where(x => x is not null)
-        .FirstOrDefault(x => x!.Year == year && x.Day == day);
-
-      if (runner is null)
-      {
-        return null;
-      }
-
       return runner.Run(runner.GetInputString(), runner.GetInputLines());
     }
   }

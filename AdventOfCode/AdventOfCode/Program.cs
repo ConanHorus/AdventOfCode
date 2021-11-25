@@ -1,6 +1,7 @@
 ﻿using AdventOfCode.Runners;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventOfCode
 {
@@ -24,38 +25,74 @@ namespace AdventOfCode
       {
         int year = GetYear();
         int day = GetDay();
-        var results = RunnerChain.Run(year, day);
-        DisplayResults(results);
+        RunRunner(year, day);
       }
       while (GetContinue());
+    }
+
+    /// <summary>
+    /// Runs the runner.
+    /// </summary>
+    /// <param name="year">The year.</param>
+    /// <param name="day">The day.</param>
+    private static void RunRunner(int year, int day)
+    {
+      var runner = RunnerChain.GetRunner(year, day);
+      if (runner is null)
+      {
+        SaveConsoleColor();
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Runner for year and day was not found.");
+        RestoreConsoleColor();
+        return;
+      }
+
+      if (runner.GetType().CustomAttributes.Any(x => x.AttributeType == typeof(TimeWarningAttribute)))
+      {
+        if (!RunTimeWarningRunner())
+        {
+          return;
+        }
+      }
+
+      var results = RunnerChain.Run(runner);
+      DisplayResults(results);
+    }
+
+    /// <summary>
+    /// Runs the time warning runner.
+    /// </summary>
+    /// <returns>A bool.</returns>
+    private static bool RunTimeWarningRunner()
+    {
+      SaveConsoleColor();
+      Console.WriteLine();
+      Console.ForegroundColor = ConsoleColor.Red;
+      Console.WriteLine("Runner is increadibly slow, do you want to proceed?");
+      RestoreConsoleColor();
+
+      return YesOrNo();
     }
 
     /// <summary>
     /// Displays results.
     /// </summary>
     /// <param name="results"></param>
-    private static void DisplayResults((string? part1, string? part2)? results)
+    private static void DisplayResults((string? part1, string? part2) results)
     {
       SaveConsoleColor();
       Console.WriteLine();
-      if (results is null)
-      {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Runner for year and day was not found.");
-      }
 
-      if (results is not null)
-      {
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.Write("Part 1: ");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine(results?.part1 is null ? "null" : results?.part1);
+      Console.ForegroundColor = ConsoleColor.White;
+      Console.Write("Part 1: ");
+      Console.ForegroundColor = ConsoleColor.Cyan;
+      Console.WriteLine(results.part1 is null ? "null" : results.part1);
 
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.Write("Part 2: ");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine(results?.part2 is null ? "null" : results?.part2);
-      }
+      Console.ForegroundColor = ConsoleColor.White;
+      Console.Write("Part 2: ");
+      Console.ForegroundColor = ConsoleColor.Cyan;
+      Console.WriteLine(results.part2 is null ? "null" : results.part2);
 
       RestoreConsoleColor();
     }
@@ -121,8 +158,17 @@ namespace AdventOfCode
     {
       Console.WriteLine();
       Console.WriteLine("Do you wish to continue? ( y / enter ) -> continue / any key -> end");
-      var input = ReadInputKey();
+      return YesOrNo();
+    }
 
+    /// <summary>
+    /// Yeses the or no.
+    /// </summary>
+    /// <returns>A bool.</returns>
+    private static bool YesOrNo()
+    {
+      var input = ReadInputKey();
+      Console.WriteLine();
       return input.Key == ConsoleKey.Enter || input.KeyChar == 'y' || input.KeyChar == 'Y';
     }
 
@@ -139,6 +185,9 @@ namespace AdventOfCode
       return input;
     }
 
+    /// <summary>
+    /// Draws the input carrot.
+    /// </summary>
     private static void DrawInputCarrot()
     {
       Console.ForegroundColor = ConsoleColor.Yellow;

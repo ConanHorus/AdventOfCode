@@ -38,11 +38,6 @@ namespace AdventOfCode.Runners.Year2015
         hashedArray = hasher.ComputeHash(byteArray);
         hash = BitConverter.ToString(hashedArray).Replace("-", string.Empty);
 
-        if (i % 1000 == 0)
-        {
-          Console.WriteLine(hash);
-        }
-
         if (hash.StartsWith("00000") && number_5 == 0)
         {
           number_5 = i;

@@ -52,7 +52,6 @@ namespace AdventOfCode.Runners.Year2015
       {
         cycles++;
         molecules = FindAllPreviousMolecules(molecules, conversions);
-        Console.WriteLine(molecules.OrderBy(x => x.Length).First());
       }
 
       return cycles;

@@ -28,12 +28,14 @@ namespace AdventOfCode.Runners.Year2015
       var player = new Player();
       var store = GenerateStore();
 
+      int bosHelathCache = boss.Health;
+
       int part1 = int.MaxValue;
       int part2 = 0;
 
       for (int buyToken = 0; buyToken <= ushort.MaxValue; buyToken++)
       {
-        boss.Health = 100;
+        boss.Health = bosHelathCache;
         player.Clear();
         foreach (var item in store.Buy((ushort)buyToken))
         {

@@ -33,9 +33,10 @@ namespace AdventOfCode.Runners.Year2015
       var boss = GenerateBoss(inputLines);
       var player = new Player();
 
-      ulong part1 = FindSmallestManaUsage(player, boss);
+      ulong part1 = FindSmallestManaUsage(player, boss, false);
+      ulong part2 = FindSmallestManaUsage(player, boss, true);
 
-      return (part1.ToString(), null);
+      return (part1.ToString(), part2.ToString());
     }
 
     /// <summary>
@@ -43,20 +44,17 @@ namespace AdventOfCode.Runners.Year2015
     /// </summary>
     /// <param name="player">The player.</param>
     /// <param name="boss">The boss.</param>
+    /// <param name="hardMode">Whether hard mode.</param>
     /// <returns>An int.</returns>
-    private static ulong FindSmallestManaUsage(Player player, Boss boss)
+    private static ulong FindSmallestManaUsage(Player player, Boss boss, bool hardMode)
     {
+      var nextPlayers = new Queue<Player>();
+      nextPlayers.Enqueue(player);
       ulong smallestManaUsage = ulong.MaxValue;
-      int fightNumber = 0;
       do
       {
-        if (fightNumber % 1_000_000 == 0)
-        {
-          Console.WriteLine(smallestManaUsage);
-        }
-
-        fightNumber++;
-        var fightReturn = RunFight(player, boss);
+        player = nextPlayers.Dequeue();
+        var fightReturn = RunFight(player, boss, hardMode);
         if (fightReturn.Successful)
         {
           smallestManaUsage = Math.Min(smallestManaUsage, fightReturn.Value);
@@ -68,8 +66,13 @@ namespace AdventOfCode.Runners.Year2015
         {
           continue;
         }
+
+        foreach (var child in player.GenerateChildren())
+        {
+          nextPlayers.Enqueue(child);
+        }
       }
-      while (fightNumber < int.MaxValue);
+      while (nextPlayers.Count > 0);
 
       return smallestManaUsage;
     }
@@ -79,8 +82,9 @@ namespace AdventOfCode.Runners.Year2015
     /// </summary>
     /// <param name="player">The player.</param>
     /// <param name="boss">The boss.</param>
+    /// <param name="hardMode">Whether hard mode.</param>
     /// <returns>A Return.</returns>
-    private static Return<ulong> RunFight(Player player, Boss boss)
+    private static Return<ulong> RunFight(Player player, Boss boss, bool hardMode)
     {
       player.Reset();
       boss.Reset();
@@ -88,32 +92,56 @@ namespace AdventOfCode.Runners.Year2015
 
       while (true)
       {
+        player.Health -= hardMode ? 1 : 0;
         UpdateEffects();
+        if (DeadState())
+        {
+          return HandleDeathState();
+        }
+
         var attackReturn = player.Attack(boss);
         if (!attackReturn)
         {
           return attackReturn.Exception!;
         }
 
-        if (boss.Health <= 0)
+        if (DeadState())
         {
-          break;
+          return HandleDeathState();
         }
 
         UpdateEffects();
+        if (DeadState())
+        {
+          return HandleDeathState();
+        }
+
         attackReturn = boss.Attack(player);
         if (!attackReturn)
         {
           return attackReturn.Exception!;
         }
 
+        if (DeadState())
+        {
+          return HandleDeathState();
+        }
+      }
+
+      bool DeadState()
+      {
+        return boss.Health <= 0 || player.Health <= 0;
+      }
+
+      Return<ulong> HandleDeathState()
+      {
         if (player.Health <= 0)
         {
           return new InvalidPatternException();
         }
-      }
 
-      return Return.Success(player.ManaUsed);
+        return Return.Success(player.ManaUsed);
+      }
     }
 
     /// <summary>
@@ -126,7 +154,7 @@ namespace AdventOfCode.Runners.Year2015
       foreach (var effect in activeEffects.Values)
       {
         effect.Update();
-        effect.Timer++;
+        effect.Timer--;
         if (effect.Timer <= 0)
         {
           effect.End();
@@ -151,11 +179,11 @@ namespace AdventOfCode.Runners.Year2015
     {
       return patternValue switch
       {
-        0 => new Effect_Drain(player, boss),
-        1 => new Effect_MagicMissile(player, boss),
-        2 => new Effect_Poison(player, boss),
-        3 => new Effect_Recharge(player, boss),
-        4 => new Effect_Sheild(player, boss),
+        0 => new Effect_MagicMissile(player, boss),
+        1 => new Effect_Poison(player, boss),
+        2 => new Effect_Drain(player, boss),
+        3 => new Effect_Sheild(player, boss),
+        4 => new Effect_Recharge(player, boss),
         _ => throw new NotImplementedException()
       };
     }
@@ -580,9 +608,14 @@ namespace AdventOfCode.Runners.Year2015
       : Character
     {
       /// <summary>
-      /// Random number generator.
+      /// Pattern.
       /// </summary>
-      private readonly Random random = new Random();
+      private byte[] pattern;
+
+      /// <summary>
+      /// Pattern pointer.
+      /// </summary>
+      private int patternPointer = 0;
 
       /// <summary>
       /// Gets or sets the mana used.
@@ -595,6 +628,17 @@ namespace AdventOfCode.Runners.Year2015
       public Player()
         : base(50, 0, 500)
       {
+        this.pattern = Array.Empty<byte>();
+      }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Player"/> class.
+      /// </summary>
+      /// <param name="pattern">The pattern.</param>
+      public Player(byte[] pattern)
+        : base(50, 0, 500)
+      {
+        this.pattern = pattern;
       }
 
       /// <inheritdoc/>
@@ -620,6 +664,18 @@ namespace AdventOfCode.Runners.Year2015
       }
 
       /// <summary>
+      /// Generates the children.
+      /// </summary>
+      /// <returns>A list of Players.</returns>
+      public IEnumerable<Player> GenerateChildren()
+      {
+        for (byte i = 0; i < 5; i++)
+        {
+          yield return new Player(this.PatternIteration(i).ToArray());
+        }
+      }
+
+      /// <summary>
       /// Chooses the spell.
       /// </summary>
       /// <param name="self">The self.</param>
@@ -627,7 +683,13 @@ namespace AdventOfCode.Runners.Year2015
       /// <returns>An Effect.</returns>
       private Return<Effect> ChooseSpell(Character self, Character other)
       {
-        var effect = GetEffect(this.random.Next(0, 5), (Player)self, (Boss)other);
+        var effectReturn = this.GetNextEffect();
+        if (!effectReturn)
+        {
+          return effectReturn.Exception!;
+        }
+
+        var effect = GetEffect(effectReturn.Value!, (Player)self, (Boss)other);
         this.Mana -= effect.Cost;
         this.ManaUsed += (uint)effect.Cost;
         if (this.Mana < 0)
@@ -636,6 +698,35 @@ namespace AdventOfCode.Runners.Year2015
         }
 
         return Return.Success(effect);
+      }
+
+      /// <summary>
+      /// Gets the next effect.
+      /// </summary>
+      /// <returns>A Return.</returns>
+      private Return<byte> GetNextEffect()
+      {
+        if (this.patternPointer >= this.pattern.Length)
+        {
+          return new PatternTooShortException();
+        }
+
+        return Return.Success(this.pattern[this.patternPointer++]);
+      }
+
+      /// <summary>
+      /// Iterates the pattern.
+      /// </summary>
+      /// <param name="nextChoice">The next choice.</param>
+      /// <returns>A list of byte.</returns>
+      private IEnumerable<byte> PatternIteration(byte nextChoice)
+      {
+        foreach (byte b in this.pattern)
+        {
+          yield return b;
+        }
+
+        yield return nextChoice;
       }
     }
 

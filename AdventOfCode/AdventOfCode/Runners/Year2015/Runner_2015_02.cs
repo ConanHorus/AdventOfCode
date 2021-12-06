@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var gifts = inputLines.Select(x => new Gift(x));
       int paperSquareFeet = 0;
@@ -33,7 +33,7 @@ namespace AdventOfCode.Runners.Year2015
         ribbon += gift.RibbonLength;
       }
 
-      return (paperSquareFeet.ToString(), ribbon.ToString());
+      return (paperSquareFeet, ribbon);
     }
 
     /// <summary>

@@ -21,14 +21,14 @@ namespace AdventOfCode.Runners.Year2021.Day01
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       int[] depths = inputLines.Select(x => int.Parse(x)).ToArray();
 
       int part1 = FindNumberOfIncreases(depths);
       int part2 = FindIncreasesWithSlidingWindows(depths);
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

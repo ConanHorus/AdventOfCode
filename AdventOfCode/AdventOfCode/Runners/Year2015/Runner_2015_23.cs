@@ -77,14 +77,14 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var instructions = inputLines.Select(x => (x, default(Instruction))).ToArray();
 
       ulong part1 = ProcessInstructions(instructions, 0, 0).B;
       ulong part2 = ProcessInstructions(instructions, 1, 0).B;
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

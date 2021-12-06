@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       byte[] bytes = ToBytes(inputString);
       for (int i = 0; i < 40; i++)
@@ -39,7 +39,7 @@ namespace AdventOfCode.Runners.Year2015
 
       int part2 = bytes.Length;
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

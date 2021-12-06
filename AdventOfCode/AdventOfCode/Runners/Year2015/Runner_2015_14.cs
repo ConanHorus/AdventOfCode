@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var reindeerArray = inputLines.Select(x => new Reindeer(x)).ToArray();
       for (int i = 0; i < 2503; i++)
@@ -49,7 +49,7 @@ namespace AdventOfCode.Runners.Year2015
       int part1 = reindeerArray.Select(x => x.Distance).Max();
       int part2 = reindeerArray.Select(x => x.Score).Max();
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

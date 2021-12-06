@@ -22,20 +22,20 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var boss = new Boss(inputLines);
       var player = new Player();
       var store = GenerateStore();
 
-      int bosHelathCache = boss.Health;
+      int bossHelathCache = boss.Health;
 
       int part1 = int.MaxValue;
       int part2 = 0;
 
       for (int buyToken = 0; buyToken <= ushort.MaxValue; buyToken++)
       {
-        boss.Health = bosHelathCache;
+        boss.Health = bossHelathCache;
         player.Clear();
         foreach (var item in store.Buy((ushort)buyToken))
         {
@@ -69,7 +69,7 @@ namespace AdventOfCode.Runners.Year2015
         }
       }
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

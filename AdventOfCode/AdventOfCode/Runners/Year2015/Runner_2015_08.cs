@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var details = new List<LineDetails>();
 
@@ -41,7 +41,7 @@ namespace AdventOfCode.Runners.Year2015
 
       int part2 = details.Sum(x => x.CodeLength - x.StringLength);
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

@@ -21,13 +21,13 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var data = inputLines.Select(x => this.ParseLine(x)).ToArray();
       int nice1 = data.Where(x => x.IsNice1).Count();
       int nice2 = data.Where(x => x.IsNice2).Count();
 
-      return (nice1.ToString(), nice2.ToString());
+      return (nice1, nice2);
     }
 
     /// <summary>

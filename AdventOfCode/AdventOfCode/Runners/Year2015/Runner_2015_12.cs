@@ -24,14 +24,14 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var rootNode = CreateNodes(inputString);
 
       long part1 = rootNode.AddUpNumbers();
       long part2 = rootNode.AddUpNumbers(ignoreReds: true);
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

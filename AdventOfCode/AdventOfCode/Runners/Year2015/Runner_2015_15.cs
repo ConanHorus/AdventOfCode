@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var ingredeints = inputLines.Select(x => new Ingredient(x)).ToList();
       int part1 = FindAllPortions(ingredeints.Count).Select(x => CalculateScore(x, ingredeints)).Max();
@@ -30,7 +30,7 @@ namespace AdventOfCode.Runners.Year2015
         .Select(x => CalculateScore(x, ingredeints))
         .Max();
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

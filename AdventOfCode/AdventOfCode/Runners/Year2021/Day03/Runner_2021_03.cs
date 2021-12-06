@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2021.Day03
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var rawBits = inputLines.Select(x => x.ToArray().Select(y => (y - '0')).ToArray()).ToList();
 
@@ -34,7 +34,7 @@ namespace AdventOfCode.Runners.Year2021.Day03
       int part1 = gamma * epsilon;
       int part2 = oxygen * co2;
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

@@ -47,7 +47,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var grid = new Grid();
       var elvishGrid = new ElvishGrid();
@@ -58,7 +58,7 @@ namespace AdventOfCode.Runners.Year2015
         elvishGrid.PerformInstruction(instruction);
       }
 
-      return (grid.CountTotalLightsOn().ToString(), elvishGrid.CountTotalLightsOn().ToString());
+      return (grid.CountTotalLightsOn(), elvishGrid.CountTotalLightsOn());
     }
 
     /// <summary>

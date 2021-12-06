@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2021.Day05
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var linePoints = new Dictionary<Vector2, int>();
       var lines = inputLines.Select(x => new Line(x)).ToArray();
@@ -50,7 +50,7 @@ namespace AdventOfCode.Runners.Year2021.Day05
 
       int part2 = linePoints.Values.Where(x => x >= 2).Count();
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
   }
 }

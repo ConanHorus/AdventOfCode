@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2021.Day04
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       int[] draws = inputLines[0].Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
 
@@ -56,7 +56,7 @@ namespace AdventOfCode.Runners.Year2021.Day04
         }
       }
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
   }
 }

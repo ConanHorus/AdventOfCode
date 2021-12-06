@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       int floor = 0;
       int firstBasement = 0;
@@ -45,7 +45,7 @@ namespace AdventOfCode.Runners.Year2015
         }
       }
 
-      return (floor.ToString(), firstBasement.ToString());
+      return (floor, firstBasement);
     }
   }
 }

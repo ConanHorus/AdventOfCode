@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       (var conversions, string molecule) = ReadInput(inputLines);
 
@@ -33,7 +33,7 @@ namespace AdventOfCode.Runners.Year2015
 
       int part2 = OperationsToElectron(molecule, conversions);
 
-      return (part1.Count.ToString(), part2.ToString());
+      return (part1.Count, part2);
     }
 
     /// <summary>

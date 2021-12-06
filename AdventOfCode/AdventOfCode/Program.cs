@@ -27,7 +27,7 @@ namespace AdventOfCode
         int day = GetDay();
         RunRunner(year, day);
       }
-      while (GetContinue());
+      while (true);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ namespace AdventOfCode
     /// Displays results.
     /// </summary>
     /// <param name="results"></param>
-    private static void DisplayResults((string? part1, string? part2) results)
+    private static void DisplayResults((object? part1, object? part2) results)
     {
       SaveConsoleColor();
       Console.WriteLine();
@@ -148,17 +148,6 @@ namespace AdventOfCode
       while (!int.TryParse(input, out number));
 
       return number;
-    }
-
-    /// <summary>
-    /// Gets whether to continue.
-    /// </summary>
-    /// <returns>Whther to continue.</returns>
-    private static bool GetContinue()
-    {
-      Console.WriteLine();
-      Console.WriteLine("Do you wish to continue? ( y / enter ) -> continue / any key -> end");
-      return YesOrNo();
     }
 
     /// <summary>

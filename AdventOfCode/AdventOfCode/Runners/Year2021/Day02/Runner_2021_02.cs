@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2021.Day02
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var sub = new Sub();
       var subWithAim = new Sub(true);
@@ -34,7 +34,7 @@ namespace AdventOfCode.Runners.Year2021.Day02
       int part1 = sub.Forward * sub.Depth;
       int part2 = subWithAim.Forward * subWithAim.Depth;
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
   }
 }

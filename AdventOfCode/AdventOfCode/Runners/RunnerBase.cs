@@ -52,6 +52,6 @@ namespace AdventOfCode.Runners
     /// <param name="inputString">Input string.</param>
     /// <param name="inputLines">Input lines.</param>
     /// <returns>Result.</returns>
-    public abstract (string? part1, string? part2) Run(string inputString, string[] inputLines);
+    public abstract (object? part1, object? part2) Run(string inputString, string[] inputLines);
   }
 }

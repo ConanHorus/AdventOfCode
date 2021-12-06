@@ -26,7 +26,7 @@ namespace AdventOfCode.Runners.Year2015
     /// <param name="inputString">The input string.</param>
     /// <param name="inputLines">The input lines.</param>
     /// <returns>A (string? part1, string? part2) .</returns>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var happinessMatrix = GenerateHappinessMatrix(inputLines);
       var names = new List<string>();
@@ -50,7 +50,7 @@ namespace AdventOfCode.Runners.Year2015
 
       int part2 = FindAllTableSeatings(names).Select(x => x.CalculateHappiness(happinessMatrix)).Max();
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

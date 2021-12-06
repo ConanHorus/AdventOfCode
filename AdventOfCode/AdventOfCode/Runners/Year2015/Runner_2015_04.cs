@@ -22,7 +22,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       using var hasher = MD5.Create();
 
@@ -50,7 +50,7 @@ namespace AdventOfCode.Runners.Year2015
       }
       while (number_6 == 0);
 
-      return (number_5.ToString(), number_6.ToString());
+      return (number_5, number_6);
     }
   }
 }

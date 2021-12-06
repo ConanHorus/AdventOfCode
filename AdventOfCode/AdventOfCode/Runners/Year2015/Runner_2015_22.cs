@@ -28,7 +28,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var boss = GenerateBoss(inputLines);
       var player = new Player();
@@ -36,7 +36,7 @@ namespace AdventOfCode.Runners.Year2015
       ulong part1 = FindSmallestManaUsage(player, boss, false);
       ulong part2 = FindSmallestManaUsage(player, boss, true);
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

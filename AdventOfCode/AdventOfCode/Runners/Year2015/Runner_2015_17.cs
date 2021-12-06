@@ -21,7 +21,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       int[] containers = inputLines.Select(x => int.Parse(x)).ToArray();
       var containerCombos = FindAllPermutations(containers)
@@ -33,7 +33,7 @@ namespace AdventOfCode.Runners.Year2015
       int minSize = containerCombos.Select(x => x.Count).Min();
       int part2 = containerCombos.Where(x => x.Count == minSize).Count();
 
-      return (part1.ToString(), part2.ToString());
+      return (part1, part2);
     }
 
     /// <summary>

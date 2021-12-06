@@ -22,7 +22,7 @@ namespace AdventOfCode.Runners.Year2015
     }
 
     /// <inheritdoc/>
-    public override (string? part1, string? part2) Run(string inputString, string[] inputLines)
+    public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
       var wires = new Dictionary<string, ushort?>();
 
@@ -48,7 +48,7 @@ namespace AdventOfCode.Runners.Year2015
       }
       while (wires["a"] is null);
 
-      return (part1.ToString(), wires["a"].ToString());
+      return (part1, wires["a"]);
     }
 
     /// <summary>

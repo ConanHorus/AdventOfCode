@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode.Runners.Year2021.Day04
+﻿namespace AdventOfCode.Runners.Year2021.Day04
 {
   /// <summary>
   /// The bingo square.

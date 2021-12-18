@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode.Runners.Year2021.Day02
+﻿namespace AdventOfCode.Runners.Year2021.Day02
 {
   /// <summary>
   /// The runner_2021_02.

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode.Runners
 {
@@ -16,14 +14,14 @@ namespace AdventOfCode.Runners
     /// List of runners.
     /// </summary>
     private static readonly Lazy<List<RunnerBase?>> runners = new Lazy<List<RunnerBase?>>(() =>
-    {
-      Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-      return types
-        .Where(x => x is not null && x != typeof(RunnerBase))
-        .Where(x => x.IsSubclassOf(typeof(RunnerBase)))
-        .Select(x => Activator.CreateInstance(x) as RunnerBase)
-        .ToList();
-    });
+          {
+            Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+            return types
+              .Where(x => x is not null && x != typeof(RunnerBase))
+              .Where(x => x.IsSubclassOf(typeof(RunnerBase)))
+              .Select(x => Activator.CreateInstance(x) as RunnerBase)
+              .ToList();
+          });
 
     /// <summary>
     /// Gets the runner.

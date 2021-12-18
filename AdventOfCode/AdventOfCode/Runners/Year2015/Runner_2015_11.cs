@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode.Runners.Year2015
+﻿namespace AdventOfCode.Runners.Year2015
 {
   /// <summary>
   /// The runner_15_11.

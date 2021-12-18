@@ -23,40 +23,16 @@ namespace AdventOfCode.Runners.Year2021.Day14
     /// <inheritdoc/>
     public override (object? part1, object? part2) Run(string inputString, string[] inputLines)
     {
-      var polymer = new Polymer(inputLines[0]);
       var instructions = GenerateInstructions(inputLines[2..]);
-      var chemicalCounts1 = new Dictionary<char, ulong>();
-      var chemicalCounts2 = new Dictionary<char, ulong>();
+      var polymer = new Polymer(inputLines[0], instructions);
 
-      foreach (char c in polymer.CombineForSteps(instructions, 10))
-      {
-        AddToChemicalCounts(chemicalCounts1, c);
-      }
+      var counts1 = polymer.CountChemicalOccurancesAfterSteps(10);
+      var counts2 = polymer.CountChemicalOccurancesAfterSteps(40);
 
-      foreach (char c in polymer.CombineForSteps(instructions, 40))
-      {
-        AddToChemicalCounts(chemicalCounts2, c);
-      }
-
-      ulong part1 = chemicalCounts1.Select(x => x.Value).Max() - chemicalCounts1.Select(x => x.Value).Min();
-      ulong part2 = chemicalCounts2.Select(x => x.Value).Max() - chemicalCounts2.Select(x => x.Value).Min();
+      ulong part1 = counts1.Select(x => x.Value).Max() + 1 - counts1.Select(x => x.Value).Min();
+      ulong part2 = counts2.Select(x => x.Value).Max() + 1 - counts2.Select(x => x.Value).Min();
 
       return (part1, part2);
-    }
-
-    /// <summary>
-    /// Adds the chemical to chemical counts.
-    /// </summary>
-    /// <param name="chemicalCounts">The chemical counts.</param>
-    /// <param name="c">The c.</param>
-    private void AddToChemicalCounts(Dictionary<char, ulong> chemicalCounts, char c)
-    {
-      if (!chemicalCounts.ContainsKey(c))
-      {
-        chemicalCounts.Add(c, 0);
-      }
-
-      chemicalCounts[c]++;
     }
 
     /// <summary>

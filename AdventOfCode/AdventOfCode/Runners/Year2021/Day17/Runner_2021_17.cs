@@ -36,8 +36,6 @@ namespace AdventOfCode.Runners.Year2021.Day17
         Bottom = FindMinimumVerticalVelocity(target.Bottom)
       };
 
-      Console.WriteLine((velocityDomain.Right - velocityDomain.Left + 1) * (velocityDomain.Top - velocityDomain.Bottom + 1));
-      Console.WriteLine($"{velocityDomain.Left}..{velocityDomain.Right}, {velocityDomain.Bottom}...{velocityDomain.Top}");
       int part2 = IterateOverDomain(velocityDomain).Where(v => SimulateInitialXAndY(target, v)).Count();
 
       return (part1, part2);
@@ -59,8 +57,6 @@ namespace AdventOfCode.Runners.Year2021.Day17
           yield return (xVelocity, yVelocity);
         }
       }
-
-      Console.WriteLine(count);
     }
 
     /// <summary>
